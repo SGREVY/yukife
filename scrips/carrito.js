@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalEl = document.getElementById("total");
   const form = document.getElementById("payment-form");
 
-  let elements; // 👈 IMPORTANTE para Stripe
+  let elements;
 
   // ===== RENDER =====
   function render() {
@@ -44,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
 
       lista.appendChild(li);
-      suma += item.precio;
+
+      // 🔥 FIX IMPORTANTE
+      suma += Number(item.precio) || 0;
     });
 
     totalEl.textContent = suma;
@@ -60,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   render();
 
   // ===== STRIPE =====
-  const stripe = Stripe("pk_test_51T98siIvjB5ba2SD0pHagoipC5prORvkqJQgtrhwRTeAfIs95BYFrIANeu8L4mG8bZpeRCjj4X2HANsf4BAgpcyg005tvR55Qg");
+ const stripe = Stripe("pk_test_51T98siIvjB5ba2SD0pHagoipC5prORvkqJQgtrhwRTeAfIs95BYFrIANeu8L4mG8bZpeRCjj4X2HANsf4BAgpcyg005tvR55Qg");
 
   // 👉 BOTÓN IR A PAGAR
   document.getElementById("pagar").addEventListener("click", async () => {
@@ -72,9 +74,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const total = Number(
-      carrito.reduce((acc, item) => acc + item.precio, 0)
+    // 🔥 FIX IMPORTANTE (evita errores de precios)
+    const total = carrito.reduce(
+      (acc, item) => acc + (Number(item.precio) || 0),
+      0
     );
+
+    console.log("TOTAL FINAL:", total);
 
     const res = await fetch("https://yukibe2.onrender.com/create-payment-intent", {
       method: "POST",
