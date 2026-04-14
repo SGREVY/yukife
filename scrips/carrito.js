@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       carrito.reduce((acc, item) => acc + item.precio, 0)
     );
 
-    const res = await fetch("http://localhost:3000/create-payment-intent", {
+    const res = await fetch("https://yukibe2.onrender.com/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
