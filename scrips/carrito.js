@@ -1,121 +1,60 @@
-// ===== DETECTAR PAGO EXITOSO =====
-const urlParams = new URLSearchParams(window.location.search);
-const status = urlParams.get("redirect_status");
+require('dotenv').config();
 
-if (status === "succeeded") {
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const express = require('express');
+const cors = require('cors');
 
-  localStorage.removeItem("carrito");
+const app = express();
 
-  document.body.innerHTML = `
-    <div style="text-align:center; margin-top:100px;">
-      <h1>✅ Pago completado</h1>
-      <p>Gracias por tu compra</p>
-      <a href="index.html">
-        <button>Volver a la tienda</button>
-      </a>
-    </div>
-  `;
-}
+app.use(cors());
+app.use(express.json());
 
-document.addEventListener("DOMContentLoaded", () => {
+// ===== CREATE PAYMENT INTENT =====
+app.post('/create-payment-intent', async (req, res) => {
+  try {
 
-  // ===== CARRITO =====
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    let amount = Number(req.body.amount);
 
-  const lista = document.getElementById("lista");
-  const totalEl = document.getElementById("total");
-  const form = document.getElementById("payment-form");
+    console.log("Amount recibido (pesos):", amount);
 
-  let elements;
+    // VALIDACIÓN FUERTE
+    if (isNaN(amount) || amount <= 0) {
+      return res.status(400).json({ error: "Monto inválido" });
+    }
 
-  // ===== RENDER =====
-  function render() {
-    lista.innerHTML = "";
-    let suma = 0;
+    // CONVERTIR A CENTAVOS
+    const amountInCents = Math.round(amount * 100);
 
-    carrito.forEach((item, index) => {
-      const li = document.createElement("li");
+    console.log("Amount en centavos:", amountInCents);
 
-      li.innerHTML = `
-        ${item.nombre} - $${item.precio}
-        <button onclick="eliminar(${index})">🗑️</button>
-      `;
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amountInCents,
+      currency: 'mxn',
 
-      lista.appendChild(li);
-
-      suma += Number(item.precio) || 0;
+      // 🔥 IMPORTANTE PARA PAYMENT ELEMENT
+      automatic_payment_methods: {
+        enabled: true,
+      },
     });
 
-    totalEl.textContent = suma;
+    console.log("PaymentIntent creado:", paymentIntent.id);
+
+    res.json({
+      clientSecret: paymentIntent.client_secret,
+    });
+
+  } catch (error) {
+    console.error("❌ ERROR STRIPE:", error);
+
+    res.status(500).json({
+      error: error.message,
+    });
   }
+});
 
-  // ===== ELIMINAR =====
-  window.eliminar = function(index) {
-    carrito.splice(index, 1);
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    render();
-  };
+// ===== SERVER =====
+const PORT = process.env.PORT || 3000;
 
-  render();
-
-  const stripe = Stripe("pk_live_51T98saIiPSkmlO8n5zNH6qeBMA7nO8CouXHfS6AhBED2632zSiL2nOINlFrVA6QrL6lbQsLmP71YTAnhcaBkintW009SbyMJ7m");
-
-  // 👉 BOTÓN IR A PAGAR
-  document.getElementById("pagar").addEventListener("click", async () => {
-
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    if (carrito.length === 0) {
-      alert("Carrito vacío");
-      return;
-    }
-
-    const total = carrito.reduce(
-      (acc, item) => acc + (Number(item.precio) || 0),
-      0
-    );
-
-    console.log("TOTAL:", total);
-
-    const res = await fetch("https://yukibe2.onrender.com/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ amount: total })
-    });
-
-    const data = await res.json();
-
-    if (!data.clientSecret) {
-      alert("Error creando pago");
-      return;
-    }
-
-    form.style.display = "block";
-
-    elements = stripe.elements({
-      clientSecret: data.clientSecret,
-    });
-
-    const paymentElement = elements.create("payment");
-    paymentElement.mount("#payment-element");
-  });
-
-  // 👉 COMPLETAR PAGO
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: window.location.href,
-      },
-    });
-
-    if (error) {
-      alert(error.message);
-    }
-  });
-
+app.listen(PORT, () => {
+  console.log(`Servidor en puerto ${PORT}`);
 });
