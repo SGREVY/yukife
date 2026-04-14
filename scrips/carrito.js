@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   render();
 
   // ===== STRIPE =====
-  const stripe = Stripe("pk_test_51T98siIvjB5ba2SD0pHagoipC5prORvkqJQgtrhwRTeAfIs95BYFrIANeu8L4mG8bZpeRCjj4X2HANsf4BAgpcyg005tvR55Qg");
+  const stripe = Stripe("pk_live_51T98saIiPSkmlO8n5zNH6qeBMA7nO8CouXHfS6AhBED2632zSiL2nOINlFrVA6QrL6lbQsLmP71YTAnhcaBkintW009SbyMJ7m");
 
   // 👉 BOTÓN IR A PAGAR
   document.getElementById("pagar").addEventListener("click", async () => {
