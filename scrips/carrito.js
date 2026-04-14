@@ -4,10 +4,8 @@ const status = urlParams.get("redirect_status");
 
 if (status === "succeeded") {
 
-  // vaciar carrito
   localStorage.removeItem("carrito");
 
-  // mostrar mensaje
   document.body.innerHTML = `
     <div style="text-align:center; margin-top:100px;">
       <h1>✅ Pago completado</h1>
@@ -45,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       lista.appendChild(li);
 
-      // 🔥 FIX IMPORTANTE
       suma += Number(item.precio) || 0;
     });
 
@@ -62,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   render();
 
   // ===== STRIPE =====
- const stripe = Stripe("pk_test_51T98siIvjB5ba2SD0pHagoipC5prORvkqJQgtrhwRTeAfIs95BYFrIANeu8L4mG8bZpeRCjj4X2HANsf4BAgpcyg005tvR55Qg");
+  const stripe = Stripe("pk_test_51T98siIvjB5ba2SD0pHagoipC5prORvkqJQgtrhwRTeAfIs95BYFrIANeu8L4mG8bZpeRCjj4X2HANsf4BAgpcyg005tvR55Qg");
 
   // 👉 BOTÓN IR A PAGAR
   document.getElementById("pagar").addEventListener("click", async () => {
@@ -74,13 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 🔥 FIX IMPORTANTE (evita errores de precios)
     const total = carrito.reduce(
       (acc, item) => acc + (Number(item.precio) || 0),
       0
     );
 
-    console.log("TOTAL FINAL:", total);
+    console.log("TOTAL:", total);
 
     const res = await fetch("https://yukibe2.onrender.com/create-payment-intent", {
       method: "POST",
@@ -97,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 👇 mostrar formulario
     form.style.display = "block";
 
     elements = stripe.elements({
@@ -108,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     paymentElement.mount("#payment-element");
   });
 
-  // 👉 BOTÓN COMPLETAR PAGO
+  // 👉 COMPLETAR PAGO
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
