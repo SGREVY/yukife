@@ -1,60 +1,139 @@
-require('dotenv').config();
+// ===== STRIPE INIT =====
+const stripe = Stripe("pk_live_51T98saIiPSkmlO8n5zNH6qeBMA7nO8CouXHfS6AhBED2632zSiL2nOINlFrVA6QrL6lbQsLmP71YTAnhcaBkintW009SbyMJ7m");
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const express = require('express');
-const cors = require('cors');
+let elements = null;
 
-const app = express();
+// ===== DETECTAR PAGO EXITOSO =====
+const urlParams = new URLSearchParams(window.location.search);
+const status = urlParams.get("redirect_status");
 
-app.use(cors());
-app.use(express.json());
+if (status === "succeeded") {
+  localStorage.removeItem("carrito");
 
-// ===== CREATE PAYMENT INTENT =====
-app.post('/create-payment-intent', async (req, res) => {
-  try {
+  document.body.innerHTML = `
+    <div style="text-align:center; margin-top:100px;">
+      <h1>✅ Pago completado</h1>
+      <p>Gracias por tu compra</p>
+      <a href="index.html">
+        <button>Volver a la tienda</button>
+      </a>
+    </div>
+  `;
+}
 
-    let amount = Number(req.body.amount);
+// ===== MAIN =====
+document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("Amount recibido (pesos):", amount);
+  // ===== CARRITO =====
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // VALIDACIÓN FUERTE
-    if (isNaN(amount) || amount <= 0) {
-      return res.status(400).json({ error: "Monto inválido" });
+  const lista = document.getElementById("lista");
+  const totalEl = document.getElementById("total");
+  const form = document.getElementById("payment-form");
+  const pagarBtn = document.getElementById("pagar");
+
+  // ===== RENDER =====
+  function render() {
+    lista.innerHTML = "";
+    let suma = 0;
+
+    carrito.forEach((item, index) => {
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        ${item.nombre} - $${item.precio}
+        <button onclick="eliminar(${index})">🗑️</button>
+      `;
+
+      lista.appendChild(li);
+      suma += Number(item.precio) || 0;
+    });
+
+    totalEl.textContent = suma;
+  }
+
+  // ===== ELIMINAR =====
+  window.eliminar = function (index) {
+    carrito.splice(index, 1);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    render();
+  };
+
+  render();
+
+  // ===== CLICK PAGAR =====
+  pagarBtn.addEventListener("click", async () => {
+
+    carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    if (carrito.length === 0) {
+      alert("Carrito vacío");
+      return;
     }
 
-    // CONVERTIR A CENTAVOS
-    const amountInCents = Math.round(amount * 100);
+    const total = carrito.reduce(
+      (acc, item) => acc + (Number(item.precio) || 0),
+      0
+    );
 
-    console.log("Amount en centavos:", amountInCents);
+    console.log("TOTAL:", total);
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: amountInCents,
-      currency: 'mxn',
+    try {
+      const res = await fetch("https://yukibe2.onrender.com/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ amount: total })
+      });
 
-      // 🔥 IMPORTANTE PARA PAYMENT ELEMENT
-      automatic_payment_methods: {
-        enabled: true,
+      const data = await res.json();
+
+      if (!data.clientSecret) {
+        alert("Error creando PaymentIntent");
+        return;
+      }
+
+      // ===== LIMPIAR ANTERIOR ELEMENT =====
+      document.getElementById("payment-element").innerHTML = "";
+
+      // ===== CREAR ELEMENTS (IMPORTANTE: SOLO UNA VEZ POR INTENT) =====
+      elements = stripe.elements({
+        clientSecret: data.clientSecret,
+      });
+
+      const paymentElement = elements.create("payment");
+      paymentElement.mount("#payment-element");
+
+      form.style.display = "block";
+
+    } catch (err) {
+      console.error(err);
+      alert("Error conectando con el servidor");
+    }
+  });
+
+  // ===== CONFIRMAR PAGO =====
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!elements) {
+      alert("Primero inicia el pago");
+      return;
+    }
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // IMPORTANTE: URL limpia
+        return_url: "https://regal-dieffenbachia-d0edc8.netlify.app/carrito.html",
       },
     });
 
-    console.log("PaymentIntent creado:", paymentIntent.id);
+    if (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  });
 
-    res.json({
-      clientSecret: paymentIntent.client_secret,
-    });
-
-  } catch (error) {
-    console.error("❌ ERROR STRIPE:", error);
-
-    res.status(500).json({
-      error: error.message,
-    });
-  }
-});
-
-// ===== SERVER =====
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Servidor en puerto ${PORT}`);
 });
