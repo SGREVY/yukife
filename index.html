@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+
+        <div class="container"><!-- container -->
+       <div>
+        <ul>
+            <li><a href="index.html">
+                <img src="assets/images/petalo_icon.png" alt="logo">
+            </a></li>
+
+            <li><a href="kamite.html">Kamite</a></li>
+            
+            <li><a href="panini.html">Panini</a></li>
+            
+            <li><a href="distrito_manga.html">Distrito Manga</a></li>
+        </ul>
+        </div>
+
+         <div>
+        <ul>
+            <li><a href="#inicio"><i class="fa-regular fa-user"></i></a></li>
+            
+            <li><a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            
+            <li><a href="#contacto"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+        </ul>
+        </div>
+        </div><!-- container fin -->
+    </nav>
+    
+    <div class="container_grande">
+        <div>
+        <h1>Lo mas vendido</h1>
+        </div>
+        <div class="img_principal">
+            <a href="https://imgs.search.brave.com/IgI4OjG4fq730qnHKBoGuud27X-WCH4D5bZt6llSUY0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2RiL2U4/LzAwL2RiZTgwMDc1/NjNkM2Y3MTQyYTU3/N2ZlM2E0ZTk2MDcz/LmpwZw">
+            <img src="assets/images/jujutsu_kaisen_28.png" alt="">
+            </a>
+
+            <a href="">
+            <img src="assets/images/one_pice_93.png" alt="">
+            </a>
+
+            <a href="">
+            <img src="assets/images/tokyo_ghoul_re_16.png" alt="">
+            </a>
+
+        </div>
+    </div>
+
+<!-- section slider -->
+ <section class="slider">
+    
+    <div class="viewport">
+        <div class="track">
+
+            <div class="item">
+                Shonen
+                <span class="texto">Dirigido a jóvenes. Tiene acción, peleas y aventuras. Los personajes buscan superarse y destacan valores como la amistad y el esfuerzo.</span>
+            </div>
+
+            <div class="item">
+                Shojo
+                <span class="texto">Enfocado en chicas jóvenes. Trata sobre romance, emociones y relaciones personales, con mucho desarrollo sentimental.</span>
+            </div>
+
+            <div class="item">
+                Seinen
+                <span class="texto">Para público adulto. Maneja temas más serios como violencia, psicología o problemas sociales, con historias más profundas.</span>
+            </div>
+
+            <div class="item">
+                Spokon
+                <span class="texto">Basado en deportes. Muestra competencias, entrenamiento, trabajo en equipo y superación personal.</span>
+            </div>
+
+            <div class="item">
+                Terror
+                <span class="texto">Busca causar miedo o suspenso. Puede ser psicológico, sobrenatural o violento.</span>
+            </div>
+
+            <div class="item">
+                Slice of Life
+                <span class="texto">Muestra la vida cotidiana de los personajes. Se enfoca en situaciones simples, emociones y relaciones reales.</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="prev">❮</button>
+        <button class="next">❯</button>
+    </div>
+
+</section>
+
+<div class="grid-productos">
+
+        <div class="card"><img src="assets/images/jojos.png"><h3>JOJOS BIZARRE ADVENTURE</h3><p>$199</p><button onclick="agregar('JOJOS BIZARRE ADVENTURE',199,'assets/images/jojos.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/jujutsu_kaisen_28.png"><h3>JUJUTSU KAISEN 28</h3><p>$199</p><button onclick="agregar('JUJUTSU KAISEN 28',199,'assets/images/jujutsu.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/tokyo_ghoul_re_16.png"><h3>TOKYO GHOUL RE 16</h3><p>$199</p><button onclick="agregar('TOKYO GHOUL RE 16',199,'assets/images/tokyo_ghoul.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/one_pice_93.png"><h3>ONE PIECE 93</h3><p>$199</p><button onclick="agregar('ONE PIECE 93',199,'assets/images/one_piece.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/pollo.png"><h3>ROOSTER FIGHTER</h3><p>$199</p><button onclick="agregar('ROOSTER FIGHTER',199,'assets/images/rooster_fighter.jpg')">Agregar</button></div>
+
+    <div class="card"><img src="assets/images/deadman_wonderlan.png"><h3>DEADMAN WONDERLAN</h3><p>$199</p><button onclick="agregar('DEADMAN WONDERLAN',199,'assets/images/deadman_wonderland.jpg')">Agregar</button></div>
+     <div class="card"><img src="assets/images/Btoom.png"><h3>BTOOM</h3><p>$199</p><button onclick="agregar('BTOOM',199,'assets/images/btoom.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/akashic_record_of_bastard_magic_instructor.png"><h3>AKASHIC RECORDS OF BASTARD MAGIC INSTRUCTOR </h3><p>$199</p><button onclick="agregar('AKASHIC RECORDS OF BASTARD MAGIC INSTRUCTOR ',199,'assets/images/akashic_record.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/velosiraptor.png"><h3>EL VELOCIRRAPTOR DE PLATA VS. EL HORROR DEL ABISMO</h3><p>$199</p><button onclick="agregar('EL VELOCIRRAPTOR DE PLATA VS. EL HORROR DEL ABISMO',199,'assets/images/velociraptor.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/Konosuba.png"><h3>KONOSUBA BENDICE ESTE MARAVILLOSO MUNDO</h3><p>$199</p><button onclick="agregar('KONOSUBA BENDICE ESTE MARAVILLOSO MUNDO',199,'assets/images/konosuba.jpg')">Agregar</button></div>
+
+    <div class="card"><img src="assets/images/DEVILMAN.png"><h3>DEVILMAN</h3><p>$199</p><button onclick="agregar('DEVILMAN',199,'assets/images/devilman.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/CHAINSAWMAN.png"><h3>CHAINSAWMAN</h3><p>$199</p><button onclick="agregar('CHAINSAWMAN',199,'assets/images/chainsawman.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/AOT.png"><h3>ATTACK ON TITAN</h3><p>$199</p><button onclick="agregar('ATTACK ON TITAN',199,'assets/images/aot.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/GACHIAKUTA.png"><h3>GACHIAKUTA</h3><p>$199</p><button onclick="agregar('GACHIAKUTA',199,'assets/images/gachia_kuta.jpg')">Agregar</button></div>
+    <div class="card"><img src="assets/images/GUNNM_Battle_Angel_Alita.png"><h3>GUNNM BATTLE ANGEL ALITA</h3><p>$199</p><button onclick="agregar('GUNNM BATTLE ANGEL ALITA',199,'assets/images/gunnm.jpg')">Agregar</button></div>
+
+</div>
+
+</body>
+<script src="scrips/flechas.js"></script>
+<script src="scrips/agregar.js"></script>
+
+</html>

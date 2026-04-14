@@ -1,0 +1,52 @@
+.navbar {
+    background: linear-gradient(90deg, #1a1a1a, #2a2a2a);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    /* 👇 efecto vidrio moderno */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 77, 109, 0.2);
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+
+    /* 👇 estilo más pro */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* ✨ HOVER ANIME */
+.navbar a:hover {
+    color: #ff4d6d;
+    text-shadow: 0 0 8px rgba(255, 77, 109, 0.6);
+}
+
+.navbar img {
+    height: 40px;
+    transform: scale(1.5);
+    width: auto;
+    display: block;
+
+    /* 👇 glow sutil */
+    filter: drop-shadow(0 0 5px rgba(255, 77, 109, 0.4));
+}

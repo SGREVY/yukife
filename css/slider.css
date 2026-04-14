@@ -1,0 +1,113 @@
+.slider {
+    position: relative;
+    width: 90%;
+    margin: 40px auto;
+}
+
+.viewport {
+    overflow: hidden;
+}
+
+.track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* ITEM */
+.item {
+    flex: 0 0 calc(100% / 3); 
+    height: 200px;
+
+    background: #1a1a1a; /* 👈 oscuro */
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 20px;
+
+    margin: 0 5px;
+    position: relative;
+    overflow: hidden;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
+}
+
+/* HOVER ITEM */
+.item:hover .texto {
+    opacity: 1;
+
+    /* 👇 sube completamente */
+    transform: translateY(0);
+}
+
+/* CONTROLES */
+.controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* BOTONES */
+.prev, .next {
+    position: static;
+
+    background: #1a1a1a;
+    color: #ff4d6d;
+
+    border: 1px solid rgba(255, 77, 109, 0.3);
+    border-radius: 50%;
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.prev:hover, .next:hover {
+    transform: scale(1.2); 
+    background: #ff4d6d;
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+}
+
+/* OVERLAY TEXTO */
+.texto {
+    position: absolute;
+    inset: 0; 
+
+    background: rgba(0,0,0,0.8);
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    transform: translateY(40%);
+    transition: all 0.4s ease;
+
+    /* 👇 IMPORTANTE */
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+    
+}
+
+
+
+/* HOVER TEXTO */
+.item:hover .texto {
+    opacity: 1;
+}

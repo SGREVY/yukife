@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+
+        <div class="container"><!-- container -->
+       <div>
+        <ul>
+            <li><a href="index.html">
+                <img src="assets/images/petalo_icon.png" alt="logo">
+            </a></li>
+
+            <li><a href="kamite.html">Kamite</a></li>
+            
+            <li><a href="panini.html">Panini</a></li>
+            
+            <li><a href="distrito_manga.html">Distrito Manga</a></li>
+        </ul>
+        </div>
+
+         <div>
+        <ul>
+            <li><a href="#inicio"><i class="fa-regular fa-user"></i></a></li>
+            
+            <li><a href="carrito.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            
+            <li><a href="#contacto"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+        </ul>
+        </div>
+        </div><!-- container fin -->
+    </nav>
+
+<h1>Tu carrito 🛒</h1>
+
+<ul id="lista"></ul>
+
+<h2>Total: $<span id="total">0</span></h2>
+
+<button id="pagar">Ir a pagar</button>
+
+<!-- FORMULARIO STRIPE -->
+<form id="payment-form" style="display:none;">
+  <div id="payment-element"></div>
+  <button type="submit">Completar pago</button>
+</form>
+
+<!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Tu JS -->
+<script src="scrips/carrito.js"></script>
+
+</body>
+<style>
+ /* LISTA */
+#lista {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+/* ITEMS */
+#lista li {
+  background: #1a1a1a;
+  color: white;
+  margin-bottom: 15px;
+  padding: 15px 20px;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: all 0.2s ease;
+
+  /* 👇 mejora visual */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+#lista li:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 25px rgba(255, 77, 109, 0.3);
+}
+
+/* TITULO PRINCIPAL */
+h1 {
+  text-align: center;
+  color: white;
+  margin-top: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* INFO PRODUCTO */
+.producto-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-info h3 {
+  margin: 0;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.producto-info p {
+  margin: 5px 0 0;
+  color: #ff4d6d; 
+  font-weight: bold;
+}
+
+/* BOTÓN ELIMINAR */
+#lista button {
+  background: transparent;
+  border: none;
+  color: #ff4d6d;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#lista button:hover {
+  transform: scale(1.2);
+  color: #ff8fab;
+}
+
+/* TOTAL */
+h2 {
+  text-align: center;
+  margin-top: 20px;
+  color: #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* BOTÓN PAGAR */
+#pagar {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 25px;
+  background: #ff4d6d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+#pagar:hover {
+  background: #ff8fab;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+}
+</style>
+</html>

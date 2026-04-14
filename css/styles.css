@@ -1,0 +1,15 @@
+@import url("navbar.css");
+@import url("container_grande.css");
+@import url("slider.css");
+@import url(productos.css);
+@import url(kamite_page.css);
+     body {
+    margin: 0;
+    background-color: #1A1A1A;
+    font-family: 'Poppins', sans-serif;
+
+    
+}
+
+
+
